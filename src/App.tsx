@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {HashRouter, Route} from 'react-router-dom';
 import HeaderContainer from "./componets/Header/HeaderContainer";
 import {LoginAPIComponent} from "./componets/Login/Login";
 import {connect, Provider} from "react-redux";
@@ -37,7 +37,7 @@ class App extends React.Component<AppComponentType> {
             return <Preloader isFetching={true}/>
         }
         return (
-            <BrowserRouter>
+            <HashRouter>
                 <div className='app-wrapper'>
                     <HeaderContainer/>
                     <Navbar/>
@@ -63,7 +63,7 @@ class App extends React.Component<AppComponentType> {
                         <Route path={'/login'} render={() => <LoginAPIComponent/>}/>
                     </div>
                 </div>
-            </BrowserRouter>
+            </HashRouter>
         );
     }
 
