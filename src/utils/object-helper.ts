@@ -1,6 +1,6 @@
-import {UserType} from "../Redux/users-reducer";
+import {ItemGetUsersType} from "../api/api";
 
-export const UpdateObjectInArray = (items: Array<UserType>, itemId: number, newObjectProps: {}) => {
+export const UpdateObjectInArray = (items: Array<ItemGetUsersType>, itemId: number, newObjectProps: {}) => {
     return items.map(t => {
         if (t.id === itemId) {
             return {...t, ...newObjectProps}

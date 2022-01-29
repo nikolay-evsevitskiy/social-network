@@ -32,7 +32,7 @@ export const Users: React.FC<UsersPageType> = ({
                    onPageChanged={onPageChanged}/>
         {
             usersPage.users.map(u => <User userId={u.id}
-                                           photoUrl={u.photoUrl}
+                                           photoUrl={u.photos.small}
                                            followed={u.followed}
                                            followingInProgress={followingInProgress}
                                            unfollow={unfollow}

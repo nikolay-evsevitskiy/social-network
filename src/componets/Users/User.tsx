@@ -5,13 +5,13 @@ import React from "react";
 
 type UserProps = {
     userId: number
-    photoUrl: string
+    photoUrl?: string
     followed: boolean
     followingInProgress: number[]
     unfollow: (userId: number) => void
     follow: (userId: number) => void
     name: string
-    status: string
+    status?: string
 
 }
 
@@ -49,10 +49,10 @@ export const User: React.FC<UserProps> = ({
                             <div>{name}</div>
                             <div>{status}</div>
                         </span>
-                        <span>
-                            <div>{"u.location.country"}</div>
-                            <div>{"u.location.city"}</div>
-                        </span>
+                        {/*<span>*/}
+                        {/*    <div>{"u.location.country"}</div>*/}
+                        {/*    <div>{"u.location.city"}</div>*/}
+                        {/*</span>*/}
                     </span>
     </div>
 

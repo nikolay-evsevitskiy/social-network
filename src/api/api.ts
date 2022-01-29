@@ -1,7 +1,7 @@
 import axios from "axios";
 import {ProfileStateType} from "../Redux/profile-reducer";
 
- export type FollowType = {
+export type FollowType = {
     data: {}
     fieldsErrors: []
     messages: []
@@ -9,8 +9,20 @@ import {ProfileStateType} from "../Redux/profile-reducer";
 }
 type getUsersType = {
     error: null | string
-    items: []
+    items: [ItemGetUsersType]
     totalCount: number
+}
+export type ItemGetUsersType = {
+    followed: boolean
+    id: number
+    name: string
+    photos: PhotoType
+    status?: string
+    uniqueUrlName?: string
+}
+export type PhotoType = {
+    small?: string
+    large?: string
 }
 type updateStatusType = {
     resultCode: number
@@ -38,6 +50,14 @@ type authMeDataType = {
         email: string
         login: string
     }
+}
+type SavePhotoStateType = {
+    data: {
+        small: string,
+        large: string
+    }
+    resultCode: number
+    messages: [string]
 }
 
 const instance = axios.create({
@@ -92,6 +112,16 @@ export const profileAPI = {
     },
     updateStatus(status: string) {
         return instance.put<updateStatusType>(`profile/status`, {status: status})
-    }
+    },
+    savePhoto(photoFile: any) {
+        const formData = new FormData();
+        formData.append("image", photoFile)
+
+        return instance.put<SavePhotoStateType>(`profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+    },
 }
 

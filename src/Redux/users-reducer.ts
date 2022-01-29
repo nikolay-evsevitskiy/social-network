@@ -1,4 +1,4 @@
-import {FollowType, usersAPI} from "../api/api";
+import {FollowType, ItemGetUsersType, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
 import {UpdateObjectInArray} from "../utils/object-helper";
 
@@ -18,20 +18,8 @@ type ActionType =
     | ToggleIsFetchingType
     | ToggleIsFollowingProgress
 
-export type UserType = {
-    id: number
-    photoUrl: string
-    followed: boolean
-    name: string
-    status: string
-    location: UserLocationType
-}
-type UserLocationType = {
-    country: string
-    city: string
-}
 export type InitialStateTypeUsersPage = {
-    users: Array<UserType>
+    users: Array<ItemGetUsersType>
     pageSize: number
     totalUsersCount: number
     currentPage: number
@@ -99,7 +87,7 @@ export const followSuccess = (userId: number) => {
 export const unfollowSuccess = (userId: number) => {
     return {type: 'social-network/users-reducer/UNFOLLOW', userId} as const
 };
-export const setUsers = (users: UserType[]) => {
+export const setUsers = (users: ItemGetUsersType[]) => {
     return {type: 'social-network/users-reducer/SET-USERS', users} as const
 };
 export const setCurrentPage = (currentPage: number) => {

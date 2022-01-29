@@ -3,25 +3,34 @@ import {ProfileStateType} from "../../../Redux/profile-reducer";
 import {Preloader} from "../../Common/Preloader/Preloader";
 import style from './ProfileInfo.module.css'
 import ProfileStatusOnFC from './ProfileStatus/ProfileStatusOnFunctionComponent';
+import userPhoto from "../../../assets/images/5546667.png";
 
 type ProfileInfoType = {
+    isOwner: boolean
     profile: ProfileStateType
     status: string
     updateStatus: (status: string) => void
+    savePhoto: (value: any) => void
 }
 
-const ProfileInfo: React.FC<ProfileInfoType> = ({profile, status, updateStatus}) => {
+const ProfileInfo: React.FC<ProfileInfoType> = ({profile, status, updateStatus, isOwner, savePhoto}) => {
     if (!profile.photos || !profile) {
         return <Preloader isFetching={true}/>
+    }
+    const onMainPhotoSelected = (e: any) => {
+        if (e.target.files.length) {
+            savePhoto(e.target.files[0])
+        }
     }
     return (
         <div>
             <div>
                 <div>
-                    {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
-                    <img alt={'Profile photo'} src={profile.photos.large}/>
-                    Status:<ProfileStatusOnFC statusProps={status} updateStatus={updateStatus}/>
-
+                    <img alt={'Profile photo'} src={profile.photos.large || userPhoto} className={style.mainPhoto}/>
+                    <div>
+                        {isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
+                    </div>
+                    <div> Status:<ProfileStatusOnFC statusProps={status} updateStatus={updateStatus}/></div>
                 </div>
                 <div>Full name: {profile.fullName}</div>
                 <div>
