@@ -1,24 +1,30 @@
 import {PhotoType, profileAPI, usersAPI} from "../api/api";
 import {Dispatch} from "redux";
+import {FormDataType} from "../componets/Profile/ProfileInfo/ProfiledataForm";
+import {AppStateType} from "./redux-store";
+import {stopSubmit} from "redux-form";
 
 type PostActionType = ReturnType<typeof postAdd>;
 type SetUserProfileType = ReturnType<typeof setUserProfile>
 type SetStatusProfileType = ReturnType<typeof setStatus>
 type DeletePostActionType = ReturnType<typeof deletePost>
 type SavePhotoSuccessActionType = ReturnType<typeof savePhotoSuccess>
+type ProfileUpdateStatusActionType = ReturnType<typeof ProfileUpdateStatus>
 type OwnActionType =
     PostActionType
     | SetUserProfileType
     | SetStatusProfileType
     | DeletePostActionType
     | SavePhotoSuccessActionType
+    | ProfileUpdateStatusActionType
+
 export type PostsType = {
     id: number
     message: string
     likes: number
 };
 export type InitialStateTypeProfilePageType = typeof initialState
-type ContactsType = {
+export type ContactsType = {
     facebook: null | string
     website: null | string
     vk: null | string
@@ -28,14 +34,14 @@ type ContactsType = {
     github: null | string
     mainLink: null | string
 }
-
+ type ProfileUpdateStatusType = "success" | "error"
 export type ProfileStateType = {
     aboutMe: string
     contacts: ContactsType
     lookingForAJob: boolean
     lookingForAJobDescription: string
     fullName: string
-    userId: number
+    userId: number | null
     photos: PhotoType
 }
 
@@ -48,6 +54,7 @@ const initialState = {
         {id: 4, message: 'Just, do it!!!', likes: 10}
     ] as PostsType[],
     profile: {} as ProfileStateType,
+    profileUpdateStatus: "error" as ProfileUpdateStatusType,
     status: ''
 }
 
@@ -73,11 +80,15 @@ const profileReducer = (state: InitialStateTypeProfilePageType = initialState, a
         case "social-network/profile-reducer/SAVE-PHOTO": {
             return {...state, profile: {...state.profile, photos: action.photo}}
         }
+        case "social-network/profile-reducer/CHANGE-PROFILE-UPDATE-STATUS": {
+            return {...state, profileUpdateStatus: action.value}
+        }
         default:
             return state;
     }
 };
 
+//action
 export const postAdd = (value: string) => {
     return {type: 'social-network/profile-reducer/POST-ADD', value} as const
 };
@@ -93,26 +104,43 @@ export const setStatus = (status: string) => {
 export const savePhotoSuccess = (photo: PhotoType) => {
     return {type: 'social-network/profile-reducer/SAVE-PHOTO', photo} as const
 };
+export const ProfileUpdateStatus = (value: ProfileUpdateStatusType) => {
+   return {type: 'social-network/profile-reducer/CHANGE-PROFILE-UPDATE-STATUS', value} as const
+};
 
-export const getUserProfile = (userId: number) => async (dispatch: Dispatch<OwnActionType>) => {
-    let response = await usersAPI.getProfile(userId)
+//thunk
+export const getUserProfile = (userId: number | null) => async (dispatch: Dispatch<OwnActionType>) => {
+    const response = await usersAPI.getProfile(userId)
     dispatch(setUserProfile(response.data))
 }
 export const getStatus = (userId: string) => async (dispatch: Dispatch<OwnActionType>) => {
-    let response = await profileAPI.getStatus(userId)
+    const response = await profileAPI.getStatus(userId)
     dispatch(setStatus(response.data))
 }
 export const updateStatus = (status: string) => async (dispatch: Dispatch<OwnActionType>) => {
-    let response = await profileAPI.updateStatus(status)
+    const response = await profileAPI.updateStatus(status)
     if (response.data.resultCode === 0) {
         dispatch(setStatus(status))
     }
 }
 export const savePhoto = (file: any) => async (dispatch: Dispatch<OwnActionType>) => {
-    let response = await profileAPI.savePhoto(file)
+    const response = await profileAPI.savePhoto(file)
     if (response.data.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.data))
     }
 }
+export const saveProfile = (value: FormDataType) =>
+    async (dispatch: any, getState: () => AppStateType) => {
+        const userId = getState().auth.data.id
+        const response = await profileAPI.saveProfile(value)
+        if (response.data.resultCode === 0) {
+            dispatch(getUserProfile(userId))
+            dispatch(ProfileUpdateStatus("success"))
+        } else {
+            dispatch(ProfileUpdateStatus("error"))
+            const message = response.data.messages.length > 0 ? response.data.messages : "Some error"
+            dispatch(stopSubmit("edit-profile",{_error: message[0]}))
+        }
+    }
 
 export default profileReducer

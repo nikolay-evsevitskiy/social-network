@@ -1,5 +1,6 @@
 import axios from "axios";
 import {ProfileStateType} from "../Redux/profile-reducer";
+import {FormDataType} from "../componets/Profile/ProfileInfo/ProfiledataForm";
 
 export type FollowType = {
     data: {}
@@ -46,7 +47,7 @@ type authMeDataType = {
     resultCode: number
     messages: []
     data: {
-        id: string
+        id: number
         email: string
         login: string
     }
@@ -58,6 +59,11 @@ type SavePhotoStateType = {
     }
     resultCode: number
     messages: [string]
+}
+type SaveProfileType = {
+    resultCode: number
+    messages: [string],
+    data: {}
 }
 
 const instance = axios.create({
@@ -82,7 +88,7 @@ export const usersAPI = {
         return instance.post<FollowType>(`follow/${id}`, {})
             .then(response => response.data)
     },
-    getProfile(userID: number) {
+    getProfile(userID: number | null) {
         return profileAPI.getProfile(userID)
     }
 }
@@ -95,16 +101,21 @@ export const authAPI = {
         })
     },
     login(email: string, password: string, rememberMe: boolean = false) {
-        return instance.post<loginDataType>(`/auth/login`, {email, password, rememberMe})
+        return instance.post<loginDataType>(`auth/login`, {email, password, rememberMe})
     },
     logout() {
-        return instance.delete<logoutDataType>(`/auth/login`)
+        return instance.delete<logoutDataType>(`auth/login`)
     }
 
 }
+export const securityAPI = {
+    getCaptchaUrl() {
+        return instance.get(`security/get-captcha-url`)
+    }
+}
 
 export const profileAPI = {
-    getProfile(userID: number) {
+    getProfile(userID: number | null) {
         return instance.get<ProfileStateType>(`profile/${userID}`)
     },
     getStatus(userID: string) {
@@ -116,12 +127,14 @@ export const profileAPI = {
     savePhoto(photoFile: any) {
         const formData = new FormData();
         formData.append("image", photoFile)
-
         return instance.put<SavePhotoStateType>(`profile/photo`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         })
     },
+    saveProfile(value: FormDataType) {
+        return instance.put<SaveProfileType>(`profile`, value)
+    }
 }
 

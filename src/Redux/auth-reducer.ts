@@ -9,7 +9,7 @@ export type GetAuthUserDataType = ReturnType<typeof getAuthUserData>
 type ActionType = SetUserDataType
 export type InitialStateAuthDataType = {
     data: {
-        id: string | null
+        id: number | null
         email: string | null
         logIn: string | null
         isAuth: boolean
@@ -38,7 +38,7 @@ const authReducer = (state: InitialStateAuthDataType = initialState, action: Act
 };
 
 
-const setAuthUserData = (email: string | null, id: string | null, logIn: string | null, isAuth: boolean) => {
+const setAuthUserData = (email: string | null, id: number | null, logIn: string | null, isAuth: boolean) => {
     return {
         type: 'social-network/auth-reducer/SET-USER-DATA', data: {email, id, logIn, isAuth} as const
     }
@@ -55,7 +55,7 @@ export const login = (email: string, password: string, rememberMe: boolean) => a
     if (response.data.resultCode === 0) {
         dispatch(getAuthUserData())
     } else {
-        let message = response.data.messages.length > 0 ? response.data.messages : 'Some error';
+        const message = response.data.messages.length > 0 ? response.data.messages : 'Some error';
         dispatch(stopSubmit('login', {_error: message}))
     }
 };

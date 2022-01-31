@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ProfileStateType} from "../../../Redux/profile-reducer";
 import {Preloader} from "../../Common/Preloader/Preloader";
 import style from './ProfileInfo.module.css'
 import ProfileStatusOnFC from './ProfileStatus/ProfileStatusOnFunctionComponent';
 import userPhoto from "../../../assets/images/5546667.png";
+import {FormDataType, ProfileDataFormReduxForm} from "./ProfiledataForm";
 
 type ProfileInfoType = {
     isOwner: boolean
@@ -11,9 +12,25 @@ type ProfileInfoType = {
     status: string
     updateStatus: (status: string) => void
     savePhoto: (value: any) => void
+    saveProfile: (value: FormDataType) => void
+    profileUpdateStatus: "success" | "error"
+}
+type ProfileDataType = {
+    profile: ProfileStateType
+    isOwner: boolean
+    goEditMode: () => void
 }
 
-const ProfileInfo: React.FC<ProfileInfoType> = ({profile, status, updateStatus, isOwner, savePhoto}) => {
+const ProfileInfo: React.FC<ProfileInfoType> = ({
+                                                    profileUpdateStatus,
+                                                    profile,
+                                                    status,
+                                                    updateStatus,
+                                                    isOwner,
+                                                    savePhoto,
+                                                    saveProfile
+                                                }) => {
+    const [editMode, setEditMode] = useState<boolean>(false)
     if (!profile.photos || !profile) {
         return <Preloader isFetching={true}/>
     }
@@ -22,43 +39,27 @@ const ProfileInfo: React.FC<ProfileInfoType> = ({profile, status, updateStatus, 
             savePhoto(e.target.files[0])
         }
     }
+    const goEditMode = () => {
+        setEditMode(true)
+    }
+    const onSubmit = (formData: FormDataType) => {
+        saveProfile(formData)
+        profileUpdateStatus === "success" && setEditMode(false)
+    }
     return (
         <div>
             <div>
                 <div>
-                    <img alt={'Profile photo'} src={profile.photos.large || userPhoto} className={style.mainPhoto}/>
+                    <img alt={'Profile'} src={profile.photos.large || userPhoto} className={style.mainPhoto}/>
                     <div>
                         {isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
                     </div>
-                    <div> Status:<ProfileStatusOnFC statusProps={status} updateStatus={updateStatus}/></div>
-                </div>
-                <div>Full name: {profile.fullName}</div>
-                <div>
-                    About me: {profile.aboutMe}
-                </div>
-                <div>
-                    Contacts:
-                    <ul>
-                        <li>facebook: {profile.contacts.facebook}</li>
-                        <li>website: {profile.contacts.website}</li>
-                        <li>vk: {profile.contacts.vk}</li>
-                        <li>twitter: {profile.contacts.twitter}</li>
-                        <li>instagram: {profile.contacts.instagram}</li>
-                        <li>youtube: {profile.contacts.youtube}</li>
-                        <li>github: {profile.contacts.github}</li>
-                        <li>mainLink: {profile.contacts.mainLink}</li>
-                    </ul>
-                </div>
-                <div>
-                    <p>
-                        LOOKING FOR A JOB!!!!
-                        <div>
-                            {profile.lookingForAJob && <img className={style.imgOfLookingFor}
-                                                            src="https://cdn1.vectorstock.com/i/1000x1000/88/00/looking-for-a-job-vector-19278800.jpg"
-                                                            alt="loking for a job"/>}
-                        </div>
-                    </p>
-                    <p>Description: {profile.lookingForAJobDescription}</p>
+                    <div>
+                        <b>Status:</b> <ProfileStatusOnFC statusProps={status} updateStatus={updateStatus}/>
+                    </div>
+                    {editMode ?
+                        <ProfileDataFormReduxForm onSubmit={onSubmit} initialValues={profile} profile={profile}/> :
+                        <ProfileData profile={profile} isOwner={isOwner} goEditMode={goEditMode}/>}
                 </div>
 
             </div>
@@ -66,5 +67,39 @@ const ProfileInfo: React.FC<ProfileInfoType> = ({profile, status, updateStatus, 
         </div>
     )
 }
+const ProfileData: React.FC<ProfileDataType> = ({profile, isOwner, goEditMode}) => {
+    const contactsData = Object.keys(profile.contacts) as Array<keyof typeof profile.contacts>
+    return <>
+        {isOwner && <div>
+            <button onClick={goEditMode}>edit</button>
+        </div>}
+        <div><b>Full name:</b> {profile.fullName}</div>
+        <div>
+            <b>About me:</b> {profile.aboutMe}
+        </div>
+        <div>
+            <b>Contacts:</b>
+        </div>
+        <div>
+            {contactsData.map(key => {
+                return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+            })}
+        </div>
+        <div>
+            LOOKING FOR A JOB: {profile.lookingForAJob ? "YES!!!" : "NO"}
+        </div>
+        {profile.lookingForAJob &&
+            <div>
+                <b>Professional skills:</b> {profile.lookingForAJobDescription}
+            </div>
+        }
+    </>
+}
+const Contact: React.FC<{ contactTitle: string, contactValue: string | null }> =
+    ({contactTitle, contactValue}) => {
+        return <div className={style.contact}><b>{contactTitle}</b>: {contactValue}</div>
+    }
 
 export default ProfileInfo;
+
+

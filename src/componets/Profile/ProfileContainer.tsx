@@ -1,23 +1,26 @@
 import React from "react";
 import {connect} from "react-redux";
-import {getStatus, getUserProfile, ProfileStateType, updateStatus, savePhoto} from "../../Redux/profile-reducer";
+import {getStatus, getUserProfile, ProfileStateType, updateStatus, savePhoto, saveProfile} from "../../Redux/profile-reducer";
 import {AppStateType} from "../../Redux/redux-store";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
 import {Profile} from "./Profile";
+import {FormDataType} from "./ProfileInfo/ProfiledataForm";
 
 type MapStateToPropsType = {
     profile: ProfileStateType
     isAuth: boolean
     status: string
-    authorizedUserId: string | null
+    authorizedUserId: number | null
+    profileUpdateStatus: "success" | "error"
 }
 type MapDispatchToPropsType = {
     getUserProfile: (userId: string) => void
     getStatus: (userId: string) => void
     updateStatus: (status: string) => void
     savePhoto: (file: any) => void
+    saveProfile: (value: FormDataType) => void
 }
 type PathParamsType = {
     userId: any
@@ -43,7 +46,6 @@ class ProfileAPIComponent extends React.Component<PropsType> {
     componentDidMount() {
         this.refreshProfile()
     }
-
     componentDidUpdate(prevProps: Readonly<PropsType>, prevState: Readonly<{}>, snapshot?: any) {
         if (this.props.match.params.userId !== prevProps.match.params.userId) {
             this.refreshProfile()
@@ -56,6 +58,8 @@ class ProfileAPIComponent extends React.Component<PropsType> {
                         status={this.props.status}
                         updateStatus={this.props.updateStatus}
                         savePhoto={this.props.savePhoto}
+                        saveProfile={this.props.saveProfile}
+                        profileUpdateStatus={this.props.profileUpdateStatus}
         />
     }
 
@@ -66,7 +70,8 @@ const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
     profile: state.profilePage.profile,
     isAuth: state.auth.data.isAuth,
     status: state.profilePage.status,
-    authorizedUserId: state.auth.data.id
+    authorizedUserId: state.auth.data.id,
+    profileUpdateStatus: state.profilePage.profileUpdateStatus
 
 })
 
@@ -77,6 +82,7 @@ export default compose<React.ComponentType>(
         getUserProfile,
         updateStatus,
         getStatus,
-        savePhoto
+        savePhoto,
+        saveProfile
     })
 )(ProfileAPIComponent)
