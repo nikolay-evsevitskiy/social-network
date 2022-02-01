@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import {HashRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Redirect, Route} from 'react-router-dom';
 import HeaderContainer from "./componets/Header/HeaderContainer";
 import {LoginAPIComponent} from "./componets/Login/Login";
 import {connect, Provider} from "react-redux";
@@ -27,9 +27,17 @@ type AppComponentType = MapStateToPropsType & MapDispatchToPropsType
 
 
 class App extends React.Component<AppComponentType> {
+    catchAllUnhandledErrors = (promiseRejectionEvent: any) => {
+        alert(promiseRejectionEvent)
+    }
 
     componentDidMount() {
         this.props.initializedApp()
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors)
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors)
     }
 
     render() {
@@ -37,11 +45,12 @@ class App extends React.Component<AppComponentType> {
             return <Preloader isFetching={true}/>
         }
         return (
-            <HashRouter>
+            <BrowserRouter>
                 <div className='app-wrapper'>
                     <HeaderContainer/>
                     <Navbar/>
                     <div className='app-wrapper-content'>
+                        <Route path={'/'} render={() => <Redirect to={'/profile'}/>}/>
                         <Route path={'/dialogs'} render={() => {
                             return <React.Suspense fallback={<Preloader isFetching={true}/>}>
                                 <DialogsContainer/>
@@ -61,9 +70,10 @@ class App extends React.Component<AppComponentType> {
                             </React.Suspense>
                         }}/>
                         <Route path={'/login'} render={() => <LoginAPIComponent/>}/>
+                        <Route path={'*'} render={() => <div>404 PAGE IS NOT FOUND!!!</div>}/>
                     </div>
                 </div>
-            </HashRouter>
+            </BrowserRouter>
         );
     }
 

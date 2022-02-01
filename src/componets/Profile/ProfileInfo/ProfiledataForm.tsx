@@ -53,7 +53,6 @@ const ProfileDataForm: React.FC<InjectedFormProps<FormDataType, FormPropsType> &
                 {contactsData.map(key => {
                     return <div className={style.contact} key={key}>
                         <b>{key}: <Field component={Input}
-                                         validate={[required]}
                                          type="text"
                                          name={"contacts." + key}
                                          placeholder={key}
