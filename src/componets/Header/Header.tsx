@@ -1,6 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import s from './Header.module.css';
+import logo from '../../assets/images/logo.svg'
 
 type HeaderType = {
     isAuth: boolean
@@ -11,8 +12,9 @@ type HeaderType = {
 export const Header: React.FC<HeaderType> = ({isAuth, login, logout}) => {
     return (
         <header className={s.header}>
-            <img src="https://thirdtemple.ca/wp-content/uploads/2020/10/social-media-1405601_1280.png"
+            <img src={logo}
                  alt="social network"/>
+            <h1>Samurai Social Network</h1>
             <div className={s.loginBlock}>
                 {isAuth ? <div>{login} - <button onClick={logout}>Log out</button></div> :
                     <NavLink to={'/login'}>Login</NavLink>}

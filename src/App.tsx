@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter, Redirect, Route} from 'react-router-dom';
 import HeaderContainer from "./componets/Header/HeaderContainer";
 import {LoginAPIComponent} from "./componets/Login/Login";
 import {connect, Provider} from "react-redux";
@@ -11,6 +10,7 @@ import {Navbar} from "./componets/Navbar/Navbar";
 import {News} from "./componets/News/News";
 import {Music} from "./componets/Music/Music";
 import {Settings} from "./componets/Setting/Settings";
+import {Redirect, Route} from 'react-router-dom';
 
 const DialogsContainer = React.lazy(() => import('./componets/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('./componets/Profile/ProfileContainer'))
@@ -45,9 +45,9 @@ class App extends React.Component<AppComponentType> {
             return <Preloader isFetching={true}/>
         }
         return (
-            <BrowserRouter>
-                <div className='app-wrapper'>
-                    <HeaderContainer/>
+            <div className='app-wrapper'>
+                <HeaderContainer/>
+                <div className='main-container'>
                     <Navbar/>
                     <div className='app-wrapper-content'>
                         <Route path={'/'} render={() => <Redirect to={'/profile'}/>}/>
@@ -73,7 +73,7 @@ class App extends React.Component<AppComponentType> {
                         <Route path={'*'} render={() => <div>404 PAGE IS NOT FOUND!!!</div>}/>
                     </div>
                 </div>
-            </BrowserRouter>
+            </div>
         );
     }
 
