@@ -24,7 +24,6 @@ export const PreloaderMan = () => {
             <span></span>
             <span></span>
         </div>
-        <h1>Loading...</h1>
 
     </>}
 
