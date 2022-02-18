@@ -1,12 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:900i');
+
+body {
+  background-color: #f5f0e1;
+  font-family: 'Poppins', sans-serif;
+}
+
 .app-wrapper {
   display: flex;
   flex-direction: column;
-  max-width: 50%;
+  max-width: 80%;
   margin: 0 auto;
 }
 h1 {
   color: white;
-  font-family: Tahoma;
+  font-family: 'Poppins', sans-serif;;
   font-size: 40px;
 }
 
@@ -22,8 +29,8 @@ h1 {
   flex-direction: column;
   margin-left: 10px;
   margin-right: 0;
-  width: 90%;
+  width: 65%;
   border-radius: 4px;
-  box-shadow: 2px 3px 4px rgba(208, 127, 28, 0.7);
-  background-color: #e3dde3;
+  box-shadow: 2px 3px 4px rgb(164, 157, 156, 0.7);
+  background-color: #ebeceb;
 }

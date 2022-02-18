@@ -9,12 +9,10 @@ type messagePropsType = {
 function Post(props:messagePropsType) {
     return (
         <div className={s.item}>
-            <div>
                 <img src="https://www.esafety.gov.au/sites/default/files/2019-08/Remove%20images%20and%20video.jpg"/>
-                <span className={s.message}>{props.message}</span>
-                <div><button>like {props.likes} </button></div>
+                <div className={s.message}>{props.message}</div>
 
-            </div>
+
         </div>
     )
 }

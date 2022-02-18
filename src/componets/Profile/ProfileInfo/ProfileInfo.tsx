@@ -5,6 +5,7 @@ import style from './ProfileInfo.module.css'
 import ProfileStatusOnFC from './ProfileStatus/ProfileStatusOnFunctionComponent';
 import userPhoto from "../../../assets/images/5546667.png";
 import {FormDataType, ProfileDataFormReduxForm} from "./ProfiledataForm";
+import SuperButton from "../../Common/superButton/SuperButton";
 
 type ProfileInfoType = {
     isOwner: boolean
@@ -34,11 +35,7 @@ const ProfileInfo: React.FC<ProfileInfoType> = ({
     if (!profile.photos || !profile) {
         return <Preloader isFetching={true}/>
     }
-    const onMainPhotoSelected = (e: any) => {
-        if (e.target.files.length) {
-            savePhoto(e.target.files[0])
-        }
-    }
+
     const goEditMode = () => {
         setEditMode(true)
     }
@@ -47,18 +44,20 @@ const ProfileInfo: React.FC<ProfileInfoType> = ({
         profileUpdateStatus === "success" && setEditMode(false)
     }
     return (
-        <div>
+        <div >
+            {isOwner && <div className={style.editButton}>
+                <SuperButton onClick={goEditMode} className={"yellow"}>edit</SuperButton>
+            </div>}
             <div>
                 <div>
                     <img alt={'Profile'} src={profile.photos.large || userPhoto} className={style.mainPhoto}/>
-                    <div>
-                        {isOwner && <input type={"file"} onChange={onMainPhotoSelected}/>}
-                    </div>
-                    <div>
+
+                    <div className={style.profileInfo}>
                         <b>Status:</b> <ProfileStatusOnFC statusProps={status} updateStatus={updateStatus}/>
                     </div>
                     {editMode ?
-                        <ProfileDataFormReduxForm onSubmit={onSubmit} initialValues={profile} profile={profile}/> :
+                        <ProfileDataFormReduxForm isOwner={isOwner} savePhoto={savePhoto} onSubmit={onSubmit}
+                                                  initialValues={profile} profile={profile}/> :
                         <ProfileData profile={profile} isOwner={isOwner} goEditMode={goEditMode}/>}
                 </div>
 
@@ -67,12 +66,10 @@ const ProfileInfo: React.FC<ProfileInfoType> = ({
         </div>
     )
 }
-const ProfileData: React.FC<ProfileDataType> = ({profile, isOwner, goEditMode}) => {
+const ProfileData: React.FC<ProfileDataType> = ({profile}) => {
     const contactsData = Object.keys(profile.contacts) as Array<keyof typeof profile.contacts>
     return <>
-        {isOwner && <div>
-            <button onClick={goEditMode}>edit</button>
-        </div>}
+
         <div><b>Full name:</b> {profile.fullName}</div>
         <div>
             <b>About me:</b> {profile.aboutMe}

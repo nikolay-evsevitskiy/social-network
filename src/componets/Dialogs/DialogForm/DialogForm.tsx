@@ -2,6 +2,7 @@ import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {maxLengthCreator, required} from "../../../utils/validators/validators";
 import {Textarea} from "../../Common/FormsControls/FormsControls";
+import SuperButton from "../../Common/superButton/SuperButton";
 
 export type FormDataType = {
     message: string
@@ -19,9 +20,9 @@ const AddMessageForm: React.FC<InjectedFormProps<FormDataType>> = ({handleSubmit
             />
         </div>
         <div>
-            <button>
+            <SuperButton className={"btn-jelly"}>
                 Send
-            </button>
+            </SuperButton>
         </div>
     </form>
 

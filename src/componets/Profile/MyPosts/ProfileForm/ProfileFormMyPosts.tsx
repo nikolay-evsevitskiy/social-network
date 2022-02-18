@@ -2,6 +2,8 @@ import React from "react";
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {Textarea} from "../../../Common/FormsControls/FormsControls";
 import {maxLengthCreator, required} from "../../../../utils/validators/validators";
+import SuperButton from "../../../Common/superButton/SuperButton";
+import style from "./ProfileformMyPosts.module.css"
 
 type FormDataProfileType = {
     values: string
@@ -14,14 +16,14 @@ export const ProfileFormMyPosts: React.FC<InjectedFormProps<FormDataProfileType>
         <div>
             <Field component={Textarea}
                    name={'addPostBody'}
-                   placeholder={'Add post'}
+                   placeholder={'Add post...'}
                    validate={[required, maxLength10]}
             />
         </div>
-        <div>
-            <button>
+        <div className={style.button}>
+            <SuperButton>
                 Add post
-            </button>
+            </SuperButton>
         </div>
     </form>
 

@@ -42,13 +42,19 @@ const MyPosts = React.memo((props: PropType) => {
         const postElements = props.posts.map((p) => <Post message={p.message} likes={p.likes} key={p.id}/>)
         return (
             <div className={s.main}>
-                <div>
-                    My posts
+                <div className={s.inputBlock}>
+                    <div>
+                        <h3>My posts</h3>
+                    </div>
+                    <div>
+                        <AddPostFormRedux onSubmit={addPost}/>
+                    </div>
                 </div>
+
                 <div>
-                    <AddPostFormRedux onSubmit={addPost}/>
+                    {postElements}
                 </div>
-                {postElements}
+
             </div>
 
         )

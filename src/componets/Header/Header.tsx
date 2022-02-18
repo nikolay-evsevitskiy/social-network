@@ -1,7 +1,8 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
 import s from './Header.module.css';
-import logo from '../../assets/images/logo.svg'
+import logo from '../../assets/images/logoSamurai2.1.png'
+import SuperButton from "../Common/superButton/SuperButton";
+
 
 type HeaderType = {
     isAuth: boolean
@@ -12,13 +13,17 @@ type HeaderType = {
 export const Header: React.FC<HeaderType> = ({isAuth, login, logout}) => {
     return (
         <header className={s.header}>
-            <img src={logo}
-                 alt="social network"/>
-            <h1>Samurai Social Network</h1>
-            <div className={s.loginBlock}>
-                {isAuth ? <div>{login} - <button onClick={logout}>Log out</button></div> :
-                    <NavLink to={'/login'}>Login</NavLink>}
+            <div className={s.logo}>
+                <img src={logo}
+                     alt="social network"/>
             </div>
+            <div className={s.title}>
+                <h1>Samurai Social Network</h1>
+            </div>
+            {isAuth ? <div className={s.loginBlock}>
+                    <div>{login} </div>
+                    <SuperButton onClick={logout} className={"red"}>Log out</SuperButton></div> :
+                <></>}
         </header>
     )
 }
