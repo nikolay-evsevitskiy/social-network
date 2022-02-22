@@ -10,7 +10,8 @@ import {Navbar} from "./componets/Navbar/Navbar";
 import {News} from "./componets/News/News";
 import {Music} from "./componets/Music/Music";
 import {Settings} from "./componets/Setting/Settings";
-import {Redirect, Route} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
+import Error404Component from "./componets/Error404/Error404Component";
 
 const DialogsContainer = React.lazy(() => import('./componets/Dialogs/DialogsContainer'))
 const ProfileContainer = React.lazy(() => import('./componets/Profile/ProfileContainer'))
@@ -24,6 +25,15 @@ type MapDispatchToPropsType = {
     initializedApp: () => void
 }
 type AppComponentType = MapStateToPropsType & MapDispatchToPropsType
+
+export const PATH = {
+    PROFILE: "/profile",
+    DIALOGS: "/dialogs",
+    SETTINGS: "/settings",
+    MUSIC: "/music",
+    USERS: "/users",
+    NEWS: "/news"
+}
 
 
 class App extends React.Component<AppComponentType> {
@@ -50,8 +60,9 @@ class App extends React.Component<AppComponentType> {
                 <div className='main-container'>
                     <Navbar/>
                     <div className='app-wrapper-content'>
-                        <Route path={'/'} render={() => <Redirect to={'/profile'}/>}/>
-                        <Route path={'/dialogs'} render={() => {
+                        <Switch>
+                        <Route exact path={'/'} render={() => <Redirect to={PATH.PROFILE}/>}/>
+                        <Route path={PATH.DIALOGS} render={() => {
                             return <React.Suspense fallback={<Preloader isFetching={true}/>}>
                                 <DialogsContainer/>
                             </React.Suspense>
@@ -61,16 +72,17 @@ class App extends React.Component<AppComponentType> {
                                 <ProfileContainer/>
                             </React.Suspense>
                         }}/>
-                        <Route path={'/news'}  render={() => <News/>}/>
-                        <Route path={'/music'} render={() => <Music/>}/>
-                        <Route path={'/settings'} render={() => <Settings/>}/>
-                        <Route path={'/users'} render={() => {
+                        <Route path={PATH.NEWS} render={() => <News/>}/>
+                        <Route path={PATH.MUSIC} render={() => <Music/>}/>
+                        <Route path={PATH.SETTINGS} render={() => <Settings/>}/>
+                        <Route path={PATH.USERS} render={() => {
                             return <React.Suspense fallback={<Preloader isFetching={true}/>}>
                                 <UsersContainer/>
                             </React.Suspense>
                         }}/>
                         <Route path={'/login'} render={() => <LoginAPIComponent/>}/>
-                        <Route path={'*'} render={() => <div>404 PAGE IS NOT FOUND!!!</div>}/>
+                        <Route path={'*'} render={() => <Error404Component/>}/>
+                        </Switch>
                     </div>
                 </div>
             </div>
