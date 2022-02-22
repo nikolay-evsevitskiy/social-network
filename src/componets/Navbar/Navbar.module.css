@@ -1,21 +1,18 @@
 .nav {
-    grid-area: n;
+    padding-top: 30px;
     background-color: #a49d9c;
-    padding: 20px;
     border-radius: 4px;
     width: 30%;
     box-shadow: 2px 3px 5px rgb(164, 157, 156, 0.7);
 
 }
+.item {
+    margin-bottom: 30px;
+}
 
 .item a {
+
     text-decoration: none;
     color: white;
-    font-size: 20px;
-    margin: 10px;
 }
 
-.item a.active{
-    color: gold;
-    font-size: 30px;
-}

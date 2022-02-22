@@ -44,7 +44,7 @@ const ProfileInfo: React.FC<ProfileInfoType> = ({
         profileUpdateStatus === "success" && setEditMode(false)
     }
     return (
-        <div >
+        <div>
             {isOwner && <div className={style.editButton}>
                 <SuperButton onClick={goEditMode} className={"yellow"}>edit</SuperButton>
             </div>}
@@ -69,27 +69,32 @@ const ProfileInfo: React.FC<ProfileInfoType> = ({
 const ProfileData: React.FC<ProfileDataType> = ({profile}) => {
     const contactsData = Object.keys(profile.contacts) as Array<keyof typeof profile.contacts>
     return <>
+        <div className={style.aboutMe}>
+            <div><b>Full name:</b> {profile.fullName}</div>
+            <div>
+                <b>About me:</b> {profile.aboutMe}
+            </div>
+            {profile.lookingForAJob &&
+                <div>
+                    <b>Professional skills:</b> {profile.lookingForAJobDescription}
+                </div>
+            }
+        </div>
 
-        <div><b>Full name:</b> {profile.fullName}</div>
-        <div>
-            <b>About me:</b> {profile.aboutMe}
+        <div className={style.contacts}>
+            <div>
+                <h3>Contacts:</h3>
+            </div>
+            <div>
+                {contactsData.map(key => {
+                    return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+                })}
+            </div>
         </div>
-        <div>
-            <b>Contacts:</b>
-        </div>
-        <div>
-            {contactsData.map(key => {
-                return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
-            })}
-        </div>
-        <div>
+
+        <div className={style.job}>
             LOOKING FOR A JOB: {profile.lookingForAJob ? "YES!!!" : "NO"}
         </div>
-        {profile.lookingForAJob &&
-            <div>
-                <b>Professional skills:</b> {profile.lookingForAJobDescription}
-            </div>
-        }
     </>
 }
 const Contact: React.FC<{ contactTitle: string, contactValue: string | null }> =

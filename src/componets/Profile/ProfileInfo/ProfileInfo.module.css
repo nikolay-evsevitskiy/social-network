@@ -1,6 +1,9 @@
-.imgOfLookingFor {
-    width: 100px;
-    height: 100px;
+.aboutMe {
+    background-color: white;
+    border-radius: 10px;
+    max-width: 280px;
+    padding: 10px;
+    margin-bottom: 20px;
 }
 .mainPhoto {
     max-width: 200px;
@@ -9,7 +12,22 @@
     margin: 10px;
 }
 .contact {
+    background-color: white;
+    margin-top: 5px;
+    width: 90%;
+    border-radius: 10px;
     padding-left: 10px;
+
+}
+
+.contacts {
+    background-color: #fdaf3c;
+    padding: 10px;
+    border-radius: 10px;
+    width: 40%;
+}
+.contacts h3 {
+    color: white;
 }
 
 .editButton {
@@ -17,10 +35,22 @@
 }
 
 .profileInfo{
+    width: 50%;
     display: flex;
     justify-content: space-evenly;
-    margin: 5px;
+    margin: 5px 5px 20px 5px;
     background-color: white;
     border-radius: 10px;
     padding: 5px;
 }
+
+.job {
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: red;
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+}
+
