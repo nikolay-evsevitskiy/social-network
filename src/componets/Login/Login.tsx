@@ -7,7 +7,9 @@ import {login} from "../../Redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../Redux/redux-store";
 import s from '../Common/FormsControls/FormControl.module.css'
-import { PATH } from "../../App";
+import {PATH} from "../../App";
+import style from "./Login.module.css"
+import SuperButton from "../Common/superButton/SuperButton";
 
 type mapDispatchToPropsType = {
     login: (email: string, password: string, rememberMe: boolean, captcha: string | null | undefined) => void
@@ -23,44 +25,52 @@ type FormDataType = {
     rememberMe: boolean
     captcha?: string
 }
-type CaptchaPropsType = {captchaUrl: string | null | undefined}
+type CaptchaPropsType = { captchaUrl: string | null | undefined }
 export const LoginForm: React.FC<InjectedFormProps<FormDataType, CaptchaPropsType> & CaptchaPropsType> =
     ({handleSubmit, error, captchaUrl}) => {
-    return <form onSubmit={handleSubmit}>
-        <div>
-            <Field component={Input}
-                   validate={[required]}
-                   type='text'
-                   name={'email'}
-                   placeholder={'Email'}/>
-        </div>
-        <div>
-            <Field component={Input}
-                   validate={[required]}
-                   type='password'
-                   name={'password'}
-                   placeholder={'Password'}/>
-        </div>
-        <div>
-            <Field component={Input}
-                   type='checkbox'
-                   name={'rememberMe'}/> remember me
-        </div>
-        {captchaUrl && <img alt={"captcha"} src={captchaUrl}/>}
-        {captchaUrl && <Field component={Input}
-                              validate={[required]}
-                              type='text'
-                              name={'captcha'}
-                              placeholder={'Symbols from image'}/>
-        }
-        {error && <div className={s.formSummaryError}>{error}</div>}
-        <div>
-            <button>
-                Login
-            </button>
-        </div>
-    </form>
-}
+        return <form onSubmit={handleSubmit}>
+            <div>
+                <Field component={Input}
+                       validate={[required]}
+                       type='text'
+                       name={'email'}
+                       placeholder={'Email'}
+                       className={style.inputText}
+                />
+            </div>
+            <div>
+                <Field component={Input}
+                       validate={[required]}
+                       type='password'
+                       name={'password'}
+                       placeholder={'Password'}
+                       className={style.inputText}
+                />
+
+            </div>
+            <div className={style.rememberMeBlock}>
+                <Field component={Input}
+                       type='checkbox'
+                       name={'rememberMe'}/>
+                <div>
+                    remember me
+                </div>
+            </div>
+            {captchaUrl && <img alt={"captcha"} src={captchaUrl}/>}
+            {captchaUrl && <Field component={Input}
+                                  validate={[required]}
+                                  type='text'
+                                  name={'captcha'}
+                                  placeholder={'Symbols from image'}/>
+            }
+            {error && <div className={s.formSummaryError}>{error}</div>}
+            <div>
+                <SuperButton className={"green"}>
+                    Login
+                </SuperButton>
+            </div>
+        </form>
+    }
 const LoginReduxForm = reduxForm<FormDataType, CaptchaPropsType>({form: 'login'})(LoginForm)
 
 
@@ -71,7 +81,7 @@ export const Login = (props: MapStateToPropsType & mapDispatchToPropsType) => {
     if (props.isAuth) {
         return <Redirect to={PATH.PROFILE}/>
     }
-    return <div>
+    return <div className={style.mainContainer}>
         <h1>LOGIN</h1>
         <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl}/>
     </div>

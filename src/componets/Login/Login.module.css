@@ -1,0 +1,28 @@
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.mainContainer h1 {
+    text-align: center;
+}
+
+.inputText {
+    background-color: white;
+    border: none;
+    width: 200px;
+    height: 30px;
+    border-radius: 10px;
+    margin: 10px 0 10px 0;
+}
+.rememberMeBlock {
+    display: flex;
+    padding: 10px;
+}
+.rememberMeBlock input {
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+}
