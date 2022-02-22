@@ -5,6 +5,7 @@ import Message from './Message/Message';
 import {AddMessageFormRedux} from "./DialogForm/DialogForm";
 import {DialogsType, MessagesType} from "../../Redux/dialogs-reducer";
 import {Redirect} from "react-router-dom";
+import {PATH} from "../../App";
 
 type DialogsPropsType = {
     dialogs: Array<DialogsType>
@@ -21,7 +22,7 @@ export const Dialogs: React.FC<DialogsPropsType> = ({dialogs, messages, addMessa
     let addMessageHandler = (values: any) => {
         addMessage(values.addMessageBody)
     };
-    if (!isAuth) return <Redirect to={'/login'}/>
+    if (!isAuth) return <Redirect to={PATH.LOGIN}/>
 
     return (
         <div className={s.dialogs}>

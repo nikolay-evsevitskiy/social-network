@@ -7,6 +7,7 @@ import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
 import {Profile} from "./Profile";
 import {FormDataType} from "./ProfileInfo/ProfiledataForm";
+import { PATH } from "../../App";
 
 type MapStateToPropsType = {
     profile: ProfileStateType
@@ -36,7 +37,7 @@ class ProfileAPIComponent extends React.Component<PropsType> {
         if (!userId) {
             userId = this.props.authorizedUserId;
             if (!userId) {
-                this.props.history.push('/login')
+                this.props.history.push(PATH.LOGIN)
             }
         }
         this.props.getUserProfile(userId)

@@ -7,6 +7,7 @@ import {login} from "../../Redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {AppStateType} from "../../Redux/redux-store";
 import s from '../Common/FormsControls/FormControl.module.css'
+import { PATH } from "../../App";
 
 type mapDispatchToPropsType = {
     login: (email: string, password: string, rememberMe: boolean, captcha: string | null | undefined) => void
@@ -68,7 +69,7 @@ export const Login = (props: MapStateToPropsType & mapDispatchToPropsType) => {
         props.login(formData.email, formData.password, formData.rememberMe, formData.captcha)
     }
     if (props.isAuth) {
-        return <Redirect to={'/profile'}/>
+        return <Redirect to={PATH.PROFILE}/>
     }
     return <div>
         <h1>LOGIN</h1>

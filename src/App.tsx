@@ -32,7 +32,8 @@ export const PATH = {
     SETTINGS: "/settings",
     MUSIC: "/music",
     USERS: "/users",
-    NEWS: "/news"
+    NEWS: "/news",
+    LOGIN: "/login"
 }
 
 
@@ -61,27 +62,27 @@ class App extends React.Component<AppComponentType> {
                     <Navbar/>
                     <div className='app-wrapper-content'>
                         <Switch>
-                        <Route exact path={'/'} render={() => <Redirect to={PATH.PROFILE}/>}/>
-                        <Route path={PATH.DIALOGS} render={() => {
-                            return <React.Suspense fallback={<Preloader isFetching={true}/>}>
-                                <DialogsContainer/>
-                            </React.Suspense>
-                        }}/>
-                        <Route path={'/profile/:userId?'} render={() => {
-                            return <React.Suspense fallback={<Preloader isFetching={true}/>}>
-                                <ProfileContainer/>
-                            </React.Suspense>
-                        }}/>
-                        <Route path={PATH.NEWS} render={() => <News/>}/>
-                        <Route path={PATH.MUSIC} render={() => <Music/>}/>
-                        <Route path={PATH.SETTINGS} render={() => <Settings/>}/>
-                        <Route path={PATH.USERS} render={() => {
-                            return <React.Suspense fallback={<Preloader isFetching={true}/>}>
-                                <UsersContainer/>
-                            </React.Suspense>
-                        }}/>
-                        <Route path={'/login'} render={() => <LoginAPIComponent/>}/>
-                        <Route path={'*'} render={() => <Error404Component/>}/>
+                            <Route exact path={'/'} render={() => <Redirect to={PATH.PROFILE}/>}/>
+                            <Route path={PATH.DIALOGS} render={() => {
+                                return <React.Suspense fallback={<Preloader isFetching={true}/>}>
+                                    <DialogsContainer/>
+                                </React.Suspense>
+                            }}/>
+                            <Route path={'/profile/:userId?'} render={() => {
+                                return <React.Suspense fallback={<Preloader isFetching={true}/>}>
+                                    <ProfileContainer/>
+                                </React.Suspense>
+                            }}/>
+                            <Route path={PATH.NEWS} render={() => <News/>}/>
+                            <Route path={PATH.MUSIC} render={() => <Music/>}/>
+                            <Route path={PATH.SETTINGS} render={() => <Settings/>}/>
+                            <Route path={PATH.USERS} render={() => {
+                                return <React.Suspense fallback={<Preloader isFetching={true}/>}>
+                                    <UsersContainer/>
+                                </React.Suspense>
+                            }}/>
+                            <Route path={PATH.LOGIN} render={() => <LoginAPIComponent/>}/>
+                            <Route path={'*'} render={() => <Error404Component/>}/>
                         </Switch>
                     </div>
                 </div>
