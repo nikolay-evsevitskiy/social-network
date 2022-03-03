@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {SamuraiJSApp} from './App';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter} from "react-router-dom";
+import {HashRouter} from "react-router-dom";
 
 
 ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter>
         <SamuraiJSApp/>
-    </BrowserRouter>,
+    </HashRouter>,
     document.getElementById('root')
 );
 
