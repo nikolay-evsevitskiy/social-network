@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {ProfileStateType} from "../../../Redux/profile-reducer";
 import {Preloader} from "../../Common/Preloader/Preloader";
 import style from './ProfileInfo.module.css'
-import ProfileStatusOnFC from './ProfileStatus/ProfileStatusOnFunctionComponent';
-import userPhoto from "../../../assets/images/5546667.png";
+//import ProfileStatusOnFC from './ProfileStatus/ProfileStatusOnFunctionComponent';
+//import userPhoto from "../../../../static/media/";
 import {FormDataType, ProfileDataFormReduxForm} from "./ProfiledataForm";
 import SuperButton from "../../Common/superButton/SuperButton";
 
@@ -50,10 +50,10 @@ const ProfileInfo: React.FC<ProfileInfoType> = ({
             </div>}
             <div>
                 <div>
-                    <img alt={'Profile'} src={profile.photos.large || userPhoto} className={style.mainPhoto}/>
+                    <img alt={'Profile'} src={profile.photos.large} className={style.mainPhoto}/>
 
                     <div className={style.profileInfo}>
-                        <b>Status:</b> <ProfileStatusOnFC statusProps={status} updateStatus={updateStatus}/>
+                        <b>Status:</b>
                     </div>
                     {editMode ?
                         <ProfileDataFormReduxForm isOwner={isOwner} savePhoto={savePhoto} onSubmit={onSubmit}
