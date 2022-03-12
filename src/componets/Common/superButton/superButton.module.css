@@ -1,0 +1,103 @@
+
+.button {
+    position: relative;
+    padding: 5px 10px;
+    margin: 10px 20px;
+    font-size: 12px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    background-color: #9c9c9c;
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    box-shadow: 0 7px 1px #6e6e6e;
+    cursor: pointer;
+}
+
+.blue {
+    background-color: #26ADE4;
+    box-shadow: 0 9px 1px #0082b5;
+}
+
+.red {
+    background-color: #e32730;
+    box-shadow: 0 9px 1px #b50000;
+}
+
+.green {
+    background-color: #36b300;
+    box-shadow: 0 9px 1px #0d8500;
+}
+
+.yellow {
+    background-color: #d6d600;
+    box-shadow: 0 9px 1px #a6a600;
+}
+
+.animation {
+    -webkit-transition: 0.2s all;
+    -moz-transition: 0.2s all;
+    -o-transition: 0.2s all;
+    -transition: 0.2s all;
+}
+
+.button:hover {
+    transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    box-shadow: 0 5px 1px #6e6e6e;
+}
+
+.button:active {
+    transform: translateY(8px);
+    -webkit-transform: translateY(8px);
+    box-shadow: 0 1px 1px #6e6e6e;
+}
+
+.blue:hover {
+    transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    box-shadow: 0 5px 1px #0082b5;
+}
+
+.blue:active {
+    transform: translateY(8px);
+    -webkit-transform: translateY(8px);
+    box-shadow: 0 1px 1px #0082b5;
+}
+
+.red:hover {
+    transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    box-shadow: 0 5px 1px #b50000;
+}
+
+.red:active {
+    transform: translateY(8px);
+    -webkit-transform: translateY(8px);
+    box-shadow: 0 1px 1px #b50000;
+}
+
+.green:hover {
+    transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    box-shadow: 0 5px 1px #0d8500;
+}
+
+.green:active {
+    transform: translateY(8px);
+    -webkit-transform: translateY(8px);
+    box-shadow: 0 1px 1px #0d8500;
+}
+
+.yellow:hover {
+    transform: translateY(4px);
+    -webkit-transform: translateY(4px);
+    box-shadow: 0 5px 1px #a6a600;
+}
+
+.yellow:active {
+    transform: translateY(8px);
+    -webkit-transform: translateY(8px);
+    box-shadow: 0 1px 1px #a6a600;
+}
